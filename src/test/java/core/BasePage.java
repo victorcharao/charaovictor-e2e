@@ -3,6 +3,9 @@ package core;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static core.DriverFactory.getDriver;
 
 
@@ -20,6 +23,14 @@ public class BasePage {
         return getDriver().findElement(By.cssSelector(cssSelector));
     }
 
+    public List<WebElement> getElements(String... cssSelectors){
+        List<WebElement> elements = new ArrayList<>();
+        for (String cssSelector : cssSelectors) {
+            elements.addAll(getDriver().findElements(By.cssSelector(cssSelector)));
+        }
+        return elements;
+    }
+
     public void write(String cssSelector, String text){
         getElement(cssSelector).sendKeys(text);
     }
@@ -34,5 +45,14 @@ public class BasePage {
 
     public boolean isElementDisplayed(String cssSelector){
         return getElement(cssSelector).isDisplayed();
+    }
+
+    public boolean areElementsDisplayed(String... cssSelectors){
+        for (WebElement element : getElements(cssSelectors)){
+            if (!element.isDisplayed()){
+                return false;
+            }
+        }
+        return true;
     }
 }

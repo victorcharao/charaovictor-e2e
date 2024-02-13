@@ -5,15 +5,15 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import pages.LoginPage;
 
+import static mappings.home.HomeMappings.*;
+import static mappings.login.LoginMappings.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static static_data.static_data.*;
 
 public class LoginSteps {
 
     LoginPage page = new LoginPage();
-    private static final String URL_LOGIN_PAGE = "https://www.saucedemo.com/";
-    private static final String URL_HOME_PAGE = URL_LOGIN_PAGE + "inventory.html";
-    private static final String ACCESS_NOT_ALLOWED_ERROR_MESSAGE =  "Epic sadface: You can only access '/inventory.html' when you are logged in.";
 
     @Given("that the user accesses the login page")
     public void accessLoginPage() {
@@ -22,12 +22,12 @@ public class LoginSteps {
 
     @Given("send a valid username")
     public void sendValidUser() {
-        page.typeUsername("standard_user");
+        page.typeUsername(USERNAME);
     }
 
     @Given("send a valid password")
     public void sendValidPassword() {
-        page.typePassword("secret_sauce");
+        page.typePassword(PASSWORD);
     }
 
     @When("login form is submitted")
@@ -42,10 +42,11 @@ public class LoginSteps {
 
     @Then("seeing home page")
     public void expectUserSeeingHomePage() {
-        assertTrue(page.isElementDisplayed(".primary_header"));
-        assertTrue(page.isElementDisplayed(".header_secondary_container"));
-        assertTrue(page.isElementDisplayed(".inventory_container"));
-        assertTrue(page.isElementDisplayed(".footer"));
+        assertTrue(page.areElementsDisplayed(
+                COMPONENT_HEADER_CONTAINER,
+                COMPONENT_HEADER_SECONDARY_CONTAINER,
+                COMPONENT_INVENTORY_CONTAINER,
+                COMPONENT_FOOTER));
     }
 
     @Given("send invalid username {string}")
@@ -75,8 +76,7 @@ public class LoginSteps {
 
     @Then("is still seeing the login page")
     public void expectUserIsSeeingLoginPage() {
-        assertTrue(page.isElementDisplayed(".login-box"));
-        assertTrue(page.isElementDisplayed(".bot_column"));
+        assertTrue(page.isElementDisplayed(LOGIN_BOX));
     }
 
     @Then("a error message is displayed")

@@ -13,16 +13,15 @@ public class DriverFactory {
 
     public static WebDriver getDriver(){
         if (driver == null){
-            switch (Properties.browser){
-                case FIREFOX:
+            switch (Properties.browser) {
+                case FIREFOX -> {
                     driver = new FirefoxDriver();
-                    System.setProperty("webdriver.gecko.driver", "geckodriver.exe");
-                    break;
-
-                case CHROME:
+                    System.setProperty("webdriver.gecko.driver", "src/test/resources/drivers/geckodriver.exe");
+                }
+                case CHROME -> {
                     driver = new ChromeDriver();
-                    System.setProperty("webdriver.chrome.driver", "chromedriver.exe");
-                    break;
+                    System.setProperty("webdriver.chrome.driver", "src/test/resources/drivers/chromedriver.exe");
+                }
             }
             driver.manage().window().setSize(new Dimension(1390, 765));
             driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
